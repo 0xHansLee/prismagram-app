@@ -23,7 +23,7 @@ const stackFactory = (initialRoute, customConfig) =>
         }
       }
     },
-    { headerLayoutPreset: "center" } // set header center on android (ios: center default)
+    { defaultNavigationOptions: { headerTitleAlign: "center" } } // set header center on android (ios: center default)
   );
 
 export default createBottomTabNavigator(
