@@ -10,7 +10,11 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import MessagesLink from "../components/MessagesLink";
 import NavIcon from "../components/NavIcon";
 import { stackStyles } from "./config";
+import Detail from "../screens/Detail";
+import styles from "../styles";
+import UserDetail from "../screens/UserDetail";
 
+// shared stack factory => you can traverse screens with stack navigation
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator(
     {
@@ -21,9 +25,28 @@ const stackFactory = (initialRoute, customConfig) =>
           ...customConfig,
           headerStyle: { ...stackStyles }
         }
+      },
+      Detail: {
+        screen: Detail,
+        navigationOptions: {
+          title: "Photo"
+        }
+      },
+      UserDetail: {
+        screen: UserDetail,
+        navigationOptions: ({ navigation }) => ({
+          title: navigation.getParam("username")
+        })
       }
     },
-    { defaultNavigationOptions: { headerTitleAlign: "center" } } // set header center on android (ios: center default)
+    {
+      defaultNavigationOptions: {
+        headerBackTitle: null,
+        headerTintColor: styles.blackColor,
+        headerTitleAlign: "center",
+        headerStyle: { ...stackStyles }
+      }
+    } // set header center on android (ios: center default)
   );
 
 export default createBottomTabNavigator(
@@ -49,7 +72,9 @@ export default createBottomTabNavigator(
       }
     },
     Search: {
-      screen: stackFactory(Search, { title: "Search" }),
+      screen: stackFactory(Search, {
+        headerBackTitle: null
+      }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
           <NavIcon
@@ -106,6 +131,7 @@ export default createBottomTabNavigator(
     }
   },
   {
+    initialRouteName: "Home",
     tabBarOptions: {
       showLabel: false,
       style: {

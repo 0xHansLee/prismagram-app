@@ -5,35 +5,15 @@ import { gql } from "apollo-boost";
 import Loader from "../../components/Loader";
 import { useQuery } from "react-apollo-hooks";
 import Post from "../../components/Post";
+import { POST_FRAGMENT } from "../../fragments";
 
-const FEED_QUERY = gql`
+export const FEED_QUERY = gql`
   {
     seeFeed {
-      id
-      location
-      caption
-      user {
-        id
-        avatar
-        username
-      }
-      files {
-        id
-        url
-      }
-      likeCount
-      isLiked
-      comment {
-        id
-        text
-        user {
-          id
-          username
-        }
-      }
-      createdAt
+      ...PostParts
     }
   }
+  ${POST_FRAGMENT}
 `;
 
 const View = styled.View`
@@ -47,7 +27,6 @@ const Text = styled.Text``;
 export default () => {
   const [refreshing, setRefreshing] = useState(false);
   const { loading, data, refetch } = useQuery(FEED_QUERY);
-  console.log(data);
   const refresh = async () => {
     try {
       setRefreshing(true);

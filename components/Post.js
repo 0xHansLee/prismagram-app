@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Image, Platform } from "react-native";
+import { withNavigation } from "react-navigation";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Swiper from "react-native-swiper";
@@ -63,7 +64,8 @@ const Post = ({
   likeCount: likeCountProp,
   caption,
   comment = [],
-  isLiked: isLikedProp
+  isLiked: isLikedProp,
+  navigation
 }) => {
   const [isLiked, setIsLiked] = useState(isLikedProp);
   const [likeCount, setLikeCount] = useState(likeCountProp);
@@ -88,13 +90,21 @@ const Post = ({
   return (
     <Container>
       <Header>
-        <Touchable>
+        <Touchable
+          onPress={() =>
+            navigation.navigate("UserDetail", { username: user.username })
+          }
+        >
           <Image
             style={{ height: 40, width: 40, borderRadius: 20 }}
             source={{ uri: user.avatar }}
           />
         </Touchable>
-        <Touchable>
+        <Touchable
+          onPress={() =>
+            navigation.navigate("UserDetail", { username: user.username })
+          }
+        >
           <HeaderUserContainer>
             <Bold>{user.username}</Bold>
             <Location>{location}</Location>
@@ -193,4 +203,4 @@ Post.propTypes = {
   createdAt: PropTypes.string.isRequired
 };
 
-export default Post;
+export default withNavigation(Post);
