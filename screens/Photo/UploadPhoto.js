@@ -79,11 +79,15 @@ export default ({ navigation }) => {
       setLoading(true);
       const {
         data: { location } // data에 response data가 담겨져 있음
-      } = await axios.post("http://43bd697b.ngrok.io/api/upload", formData, {
-        headers: {
-          "content-type": "multipart/form-data"
+      } = await axios.post(
+        "https://prismagram-hansol.herokuapp.com/api/upload",
+        formData,
+        {
+          headers: {
+            "content-type": "multipart/form-data"
+          }
         }
-      });
+      );
       const {
         data: { upload }
       } = await uploadMutation({
